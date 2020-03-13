@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import rospy,copy
-from geometry_megs.msg import Twist
-form std_srvs.srv import Trigger, TriggerResponse
-form pimouse_ros.msg import LightSensorValues
+from geometry_msgs.msg import Twist
+from std_srvs.srv import Trigger, TriggerResponse
+from pimouse_ros.msg import LightSensorValues
 
 class WallStop():
     def __init__(self):
@@ -18,8 +18,8 @@ class WallStop():
         rate = rospy.Rate(10)
         data = Twist()
 
-        while not rospy_is_shutdown():
-            data.liner.x = 0.2 if self.sensor_values.sum_all < 500 else 0.0
+        while not rospy.is_shutdown():
+            data.linear.x = 0.2 if self.sensor_values.sum_all < 500 else 0.0
             self.cmd_vel.publish(data)
             rate.sleep()
 
