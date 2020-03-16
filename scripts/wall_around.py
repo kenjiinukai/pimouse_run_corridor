@@ -14,26 +14,23 @@ class WallTrace():
     def callback(self,messages):
         self.sensor_values = messages
 
+    def wall_front(self,ls):
+	return	ls.left_forward > 50 or ls.right_forward > 50
+
+    def too_right(self,ls):
+	return	ls.right_side > 50
+
+    def too_left(self,ls):
+	return	ls.left_side > 50
+
     def run(self):
         rate = rospy.Rate(20)
         data = Twist()
 	
-	accel = 0.02
-	data.linear.x = 0.0
-        while not rospy.is_shutdown():
-		s = self.sensor_values
-		data.linear.x += accel
-		
-		if s.sum_forward >= 50:		data.linear.x = 0.0
-		elif data.linear.x <= 0.2:	data.linear.x = 0.2
-		elif data.linear.x >= 0.8:	data.linear.x = 0.8
-			
-		if s.data.linear.x < 0.2:	data.angular.z = 0.0
-		elif s.left_side < 10:		data.angular.z = 0.0
-		else:
-			target = 50
-			error = (target - s.left_side)/50.0
-			data.angular.z = error * 3 * math.pi / 180.0	
+	data.linear.x = 0.3
+	data.angular.z = 0.0
+	while not rospy.is_shutdown():
+		if self.wall_front
 
 		self.cmd_vel.publish(data)
 		rate.sleep()

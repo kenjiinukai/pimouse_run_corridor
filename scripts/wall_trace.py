@@ -4,7 +4,7 @@ from geometry_msgs.msg import Twist
 from std_srvs.srv import Trigger, TriggerResponse
 from pimouse_ros.msg import LightSensorValues
 
-class WallTrace():
+class WallTraceTest():
     def __init__(self):
         self.cmd_vel = rospy.Publisher('/cmd_vel',Twist,queue_size=1)
 
@@ -28,7 +28,7 @@ class WallTrace():
 		elif data.linear.x <= 0.2:	data.linear.x = 0.2
 		elif data.linear.x >= 0.8:	data.linear.x = 0.8
 			
-		if data.linear.x < 0.2:	data.angular.z = 0.0
+		if data.linear.x < 0.2:		data.angular.z = 0.0
 		elif s.left_side < 10:		data.angular.z = 0.0
 		else:
 			target = 50
